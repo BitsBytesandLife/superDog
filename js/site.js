@@ -79,27 +79,28 @@ function getData() {
 
     if (events.length == 0) {
         events = superDogEventsArray;
-        localStorage.setItem("superDogEventsArray", JSON.stringify(superDogEvents));
+        localStorage.setItem("superDogEventsArray", JSON.stringify(events));
     }
     return events;
 }
 
 function saveEvent() {
-    let events = JSON.parse(localStorage.getItem("superDogEventsArray")) || superDogEvents;
+    let events = JSON.parse(localStorage.getItem("superDogEventsArray")) || superDogEventsArray;
 
     let obj = {};
 
     obj["event"] = document.getElementById("newEventName").value;
     obj["city"] = document.getElementById("newEventCity").value;
     obj["state"] = document.getElementById("newEventState").value;
-    obj["attendance"] = document.getElementById("newEventAttendance").value;
-    obj["date"] = document.getElementById("newEventDate").value;
+    obj["attendance"] = +document.getElementById("newEventAttendance").value;
+    obj["date"] = formatDate(document.getElementById("newEventDate").value);
 
     events.push(obj);
 
-    localStorage.setItem("superDogEventsArray", JSON.stringify(superDogEventsArray));
+    localStorage.setItem("superDogEventsArray", JSON.stringify(events));
 
     displayData(events);
+    buildDropDown();
 }
 
 function displayData(superDogEvents) {
@@ -130,7 +131,8 @@ var filteredEvents = superDogEventsArray;
 function buildDropDown() {
     var eventDD = document.getElementById("eventDropDown");
     //discuss this statement
-    let distinctEvents = [...new Set(superDogEventsArray.map((event) => event.city))];
+    let curEvents = JSON.parse(localStorage.getItem("superDogEventsArray")) || superDogEventsArray;
+    let distinctEvents = [...new Set(curEvents.map((event) => event.city))];
 
     let linkHTMLEnd =
         '<div class="dropdown-divider"></div><a class="dropdown-item" onclick="getEvents(this)" data-string="All" >All</a>';
@@ -142,8 +144,8 @@ function buildDropDown() {
     resultHTML += linkHTMLEnd;
     eventDD.innerHTML = resultHTML;
     displayStats();
-    displayData(events);
-    loadEvents();
+    //displayData(events);
+    //loadEvents();
 }
 
 //show stats for a specific city
@@ -194,4 +196,9 @@ function displayStats() {
             maximumFractionDigits: 0,
         }
     );
+}
+
+function formatDate(dateString) {
+    let [year, month, day] = dateString.split('-');
+    return [month, day, year].join('/');
 }
