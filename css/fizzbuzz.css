@@ -1,0 +1,23 @@
+.fizz {
+    font-weight: bolder;
+    color: #E68364;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.buzz {
+    font-weight: bolder;
+    color: hotpink;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.fizzbuzz {
+    font-weight: bolder;
+    color: #8F1D21;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.disabled-link {
+    cursor: default;
+    pointer-events: none;
+    text-decoration: none;
+}
