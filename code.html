@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>FizzBuzz</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/prism.css">
+    <!-- <link rel="stylesheet" href="/css/sample.css"> -->
+</head>
+
+<body class="line-numbers">
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">SuperDog Events</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="app.html">The App</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="code.html">See The Code<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/BitsBytesandLife/TacoCat"
+                            target="_blank">GitHub</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Me</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="container-fluid">
+        <div class="container-fluid">
+            <br>
+            <br>
+            <div class="row">
+                <div class="col h3 text-center">
+                    <br />
+                    The Functions that make SuperDog SUPER!
+                </div>
+            </div>
+
+            <hr />
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col">
+                        <pre class=""><code class="language-javascript">function loadEvents() {
+let events = [];
+events = getData();
+displayData(events);
+}
+
+</code>
+</pre>
+                        <hr>
+                        <pre class=""><code class="language-javascript">function getData() {
+// is this superDogEventsArray or "superDogEventsArray"?
+let events = JSON.parse(localStorage.getItem("superDogEventsArray")) || [];
+
+if (events.length == 0) {
+    events = superDogEventsArray;
+    localStorage.setItem("superDogEventsArray", JSON.stringify(events));
+}
+return events;
+}                 
+</code>
+</pre>
+                        <hr>
+                        <pre class=""><code class="language-javascript">function saveEvent() {
+let events = JSON.parse(localStorage.getItem("superDogEventsArray")) || superDogEventsArray;
+
+let obj = {};
+
+obj["event"] = document.getElementById("newEventName").value;
+obj["city"] = document.getElementById("newEventCity").value;
+obj["state"] = document.getElementById("newEventState").value;
+obj["attendance"] = +document.getElementById("newEventAttendance").value;
+obj["date"] = formatDate(document.getElementById("newEventDate").value);
+
+events.push(obj);
+
+localStorage.setItem("superDogEventsArray", JSON.stringify(events));
+
+displayData(events);
+buildDropDown();
+}
+</code>
+</pre>
+                        <hr>
+                        <pre class=""><code class="language-javascript">function displayData(superDogEvents) {
+    const template = document.getElementById("Data-template");
+    const resultsBody = document.getElementById("resultsBody");
+
+    //clear the table
+    resultsBody.innerHTML = "";
+
+    for (let i = 0; i < superDogEvents.length; i++) {
+        const dataRow = document.importNode(template.content, true);
+
+        dataRow.getElementById("event").textContent = superDogEvents[i].event;
+        dataRow.getElementById("city").textContent = superDogEvents[i].city;
+        dataRow.getElementById("state").textContent = superDogEvents[i].state;
+        dataRow.getElementById("attendance").textContent = superDogEvents[i].attendance;
+        dataRow.getElementById("eventDate").textContent = superDogEvents[i].date;
+        resultsBody.appendChild(dataRow);
+    }
+}
+
+var filteredEvents = superDogEventsArray;
+
+//build a dropdown of specific cities
+function buildDropDown() {
+    var eventDD = document.getElementById("eventDropDown");
+    //discuss this statement
+    let curEvents = JSON.parse(localStorage.getItem("superDogEventsArray")) || superDogEventsArray;
+    let distinctEvents = [...new Set(curEvents.map((event) => event.city))];
+
+    let linkHTMLEnd =
+        '<div class="dropdown-divider"></div><a class="dropdown-item" onclick="getEvents(this)" data-string="All" >All</a>';
+    let resultHTML = "";
+
+    for (var i = 0; i < distinctEvents.length; i++) {
+        resultHTML += `<a class="dropdown-item" onclick="getEvents(this)" data-string="${distinctEvents[i]}">${distinctEvents[i]}</a>`;
+    }
+    resultHTML += linkHTMLEnd;
+    eventDD.innerHTML = resultHTML;
+    displayStats();
+    //displayData(events);
+    //loadEvents();
+}
+                        
+</code>
+</pre>
+                        <hr>
+                        <pre class=""><code class="language-javascript">//show stats for a specific city
+function getEvents(element) {
+let city = element.getAttribute("data-string");
+curEvents = JSON.parse(localStorage.getItem("superDogEventsArray")) || superDogEvents;
+filteredEvents = curEvents;
+document.getElementById("statsHeader").innerHTML = `Stats For ${city} Events`;
+if (city != "All") {
+//Explain how array filtering works-
+filteredEvents = curEvents.filter(function (item) {
+    if (item.city == city) {
+        return item;
+    }
+});
+}
+displayStats();
+}                                
+</code>
+</pre>
+                        <hr>
+                        <pre class=""><code class="language-javascript">//show stats for a specific city
+function getEvents(element) {
+let city = element.getAttribute("data-string");
+curEvents = JSON.parse(localStorage.getItem("superDogEventsArray")) || superDogEvents;
+filteredEvents = curEvents;
+document.getElementById("statsHeader").innerHTML = `Stats For ${city} Events`;
+if (city != "All") {
+//Explain how array filtering works-
+filteredEvents = curEvents.filter(function (item) {
+    if (item.city == city) {
+        return item;
+    }
+});
+}
+displayStats();
+}                                
+</code>
+</pre>
+
+                        <hr>
+                        <pre class=""><code class="language-javascript">function displayStats() {
+let total = 0;
+let average = 0;
+let most = 0;
+let least = -1;
+let currentAttendance = 0;
+
+//display total attendance
+for (var i = 0; i < filteredEvents.length; i++) {
+currentAttendance = filteredEvents[i].attendance;
+total += currentAttendance;
+
+if (most < currentAttendance) {
+    most = currentAttendance;
+}
+
+if (least > currentAttendance || least < 0) {
+    least = currentAttendance;
+}
+}
+average = total / filteredEvents.length;
+
+document.getElementById("total").innerHTML = total.toLocaleString();
+document.getElementById("most").innerHTML = most.toLocaleString();
+document.getElementById("least").innerHTML = least.toLocaleString();
+document.getElementById("average").innerHTML = average.toLocaleString(
+undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+}
+);
+}                            
+</code>
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <span class="text-muted">Copyright &copy;
+                        2021 BK, All rights reserved.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script src="/js/prism.js"></script>
+</body>
+
+</html>

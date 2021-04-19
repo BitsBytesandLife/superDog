@@ -1,23 +1,14 @@
-.fizz {
-    font-weight: bolder;
-    color: #E68364;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.btn-primary-cf:hover {
+    color: whitesmoke;
+    background-color: #ff993b !important;
 }
 
-.buzz {
-    font-weight: bolder;
-    color: hotpink;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.btn-primary-cf:focus {
+    color: whitesmoke;
+    background-color: #ff993b !important;
 }
 
-.fizzbuzz {
-    font-weight: bolder;
-    color: #8F1D21;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-
-.disabled-link {
-    cursor: default;
-    pointer-events: none;
-    text-decoration: none;
+.btn-primary-cf:active {
+    color: whitesmoke;
+    background-color: #ff993b !important;
 }
